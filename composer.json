@@ -1,0 +1,46 @@
+{
+    "name": "wiebekn/dawilog-php",
+    "description": "client for dawilog",
+    "keywords": [
+        "dawilog",
+        "log",
+        "logging",
+        "error-monitoring",
+        "error-handler",
+        "crash-reporting",
+        "crash-reports"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wiebe Kloosterman",
+            "email": "wiebe@kloosterman.eu"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Dawilog\\": "src"
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "ext-json": "*",
+        "psr/log": "^1.0",
+        "php-http/message": "^1.5",
+        "psr/http-factory": "^1.0",
+        "guzzlehttp/psr7": "^1.6",
+        "ramsey/uuid": "^4.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dawilog\\Laravel\\ServiceProvider"
+            ],
+            "aliases": {
+                "Dawilog": "Dawilog\\Laravel\\Facade"
+            }
+        }
+    }
+}
