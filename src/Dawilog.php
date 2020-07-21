@@ -15,13 +15,19 @@ class Dawilog
     protected $client;
     protected $dsn;
 
+    /**
+     * Dawilog constructor.
+     */
     public function __construct()
     {
         $this->client = new GuzzleClient();
         $this->dsn = config('dawilog.dsn');
     }
 
-    public function sendException($exception)
+    /**
+     * @param $exception
+     */
+    public function sendException($exception): void
     {
         $exceptions[] = [
             'type' => \get_class($exception),
@@ -36,49 +42,11 @@ class Dawilog
         $this->send($objDawilogEvent);
     }
 
-    public function send($objDawilogEvent)
+    /**
+     * @param $objDawilogEvent
+     */
+    public function send($objDawilogEvent): void
     {
-//        $request = $this->factory->createRequest(
-//            'POST',
-//            $this->getUrl(),
-//            [
-//                'Content-Type' => 'application/json',
-//            ],
-//            JSON::encode($objDawilogEvent->toArray())
-//        );
-
-//        $url = $this->getUrl();
-//        $body = "{'dd':'test123'}";
-//        $b = JSON::encode($objDawilogEvent->toArray());
-//
-//        $request = new GuzzleRequest(
-//            'POST',
-//            $this->getUrl(),
-//            [
-//                'Content-Type' => 'application/json',
-//            ],
-//            $body
-//        );
-//
-//
-//        try {
-//            $response = $this->client->send($request, ['timeout' => 2]);
-//        } catch (GuzzleException $e) {
-//        }
-
-
-//        $promise = $this->client->sendAsync($request);
-//
-//        $promise->then(
-//            function (ResponseInterface $res) {
-//                echo $res->getStatusCode() . "\n";
-//            },
-//            function (RequestException $e) {
-//                echo $e->getMessage() . "\n";
-//                echo $e->getRequest()->getMethod();
-//            }
-//        );
-
         $body = JSON::encode($objDawilogEvent->toArray());
         $headers = [
             'Content-Type' => 'application/json',
@@ -93,20 +61,16 @@ class Dawilog
             $response = $this->client->post($this->getUrl(), $options);
         } catch (GuzzleException $e) {
         }
-
-
-
-
-        $a= "end";
     }
 
-    public function getUrl()
+    /**
+     * @return string
+     */
+    public function getUrl(): string
     {
         [$url, $uuid, $account, $project] = explode(":", $this->dsn);
         $strReturn = "https://" . $url . "/dwlog/event/" . $account . "/" . $project . "/" . $uuid;
 
         return $strReturn;
     }
-
-
 }
