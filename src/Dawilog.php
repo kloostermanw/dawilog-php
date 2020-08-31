@@ -29,10 +29,12 @@ class Dawilog
      */
     public function sendException($exception): void
     {
+        $trace = $this->enrichTrace($exception->getTrace());
+
         $exceptions[] = [
             'type' => \get_class($exception),
             'value' => $exception->getMessage(),
-            'trace' => $exception->getTrace(),
+            'trace' => $trace,
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
         ];
@@ -72,5 +74,25 @@ class Dawilog
         $strReturn = "https://" . $url . "/dwlog/event/" . $account . "/" . $project . "/" . $uuid;
 
         return $strReturn;
+    }
+
+    /**
+     * @param array $arrTrace
+     * @return array
+     */
+    public function enrichTrace(array $arrTrace): array
+    {
+        $arrReturn = [];
+
+        foreach ($arrTrace as $item) {
+            $intLine = $item['line'] ?? null;
+            $strFile = $item['file'] ?? null;
+            if (!is_null($intLine) && !is_null($strFile)) {
+                $item['code'] = (new Code())->get($strFile, $intLine);
+            }
+            $arrReturn[] = $item;
+        }
+
+        return $arrReturn;
     }
 }
