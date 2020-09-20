@@ -70,8 +70,12 @@ class Dawilog
      */
     public function getUrl(): string
     {
-        [$url, $uuid, $account, $project] = explode(":", $this->dsn);
-        $strReturn = "https://" . $url . "/dwlog/event/" . $account . "/" . $project . "/" . $uuid;
+        $strReturn = '';
+
+        if (isset($this->dsn)) {
+            [$url, $uuid, $account, $project] = explode(":", $this->dsn);
+            $strReturn = "https://" . $url . "/dwlog/event/" . $account . "/" . $project . "/" . $uuid;
+        }
 
         return $strReturn;
     }

@@ -31,11 +31,5 @@ app/Exceptions/Handler.php
 
 config/dawilog.php
 ```
-<?php
-
-return [
-    'dsn' => env('DAWILOG_DSN'),
-    'environment' => env('APP_ENV', 'production'),
-    'release' => env('APP_VERSION'),
-];
+php artisan vendor:publish --provider="Dawilog\Laravel\ServiceProvider" --tag="config"
 ```
