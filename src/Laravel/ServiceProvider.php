@@ -21,11 +21,19 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->app->singleton(static::$abstract, function ($app) {
             return new Dawilog($app);
         });
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/dawilog.php', 'dawilog'
+        );
     }
 
     public function boot()
     {
         $this->app->make(static::$abstract);
+
+        $this->publishes([
+            __DIR__ . '/../../config/dawilog.php' => config_path('dawilog.php'),
+        ]);
     }
 
     /**
