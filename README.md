@@ -17,7 +17,7 @@ config/app.php
 Dawilog\Laravel\ServiceProvider::class,
 ```
 
-app/Exceptions/Handler.php
+app/Exceptions/Handler.php (Laravel 7)
 ```
     public function report(Throwable $exception)
     {
@@ -28,6 +28,18 @@ app/Exceptions/Handler.php
         parent::report($exception);
     }
 ```
+app/Exceptions/Handler.php (Laravel 5 & 6)
+```
+    public function report(Exception $exception)
+    {
+        if ($this->shouldReport($exception) && app()->bound('dawilog')) {
+            app('dawilog')->sendException($exception);
+        }
+    
+        parent::report($exception);
+    }
+```
+
 
 config/dawilog.php
 ```
