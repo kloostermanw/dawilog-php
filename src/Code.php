@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Dawilog;
-
 
 use SplFileObject;
 
@@ -32,7 +30,7 @@ class Code
         $arrCode = [];
 
         for ($i = $intStartLine; $i <= $intEndLine; $i++) {
-            $this->file->seek($i + 1);
+            $this->file->seek($i - 1);
             $arrCode[$i] = $this->file->current();
         }
 
