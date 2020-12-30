@@ -21,7 +21,7 @@ class Code
         $this->file = new SplFileObject($strFile);
 
         $intStartLine =  floor($intLine - ($this->codeLength / 2));
-        $intStartLine = ($intStartLine > 0) ? $intStartLine : 0;
+        $intStartLine = ($intStartLine > 1) ? $intStartLine : 1;
 
         $intEndLine = $intStartLine + $this->codeLength;
         $max = $this->numberOfLines();
