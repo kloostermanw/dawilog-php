@@ -27,9 +27,9 @@ class Dawilog
     /**
      * @param $exception
      */
-    public function sendException($exception): void
+    public function sendException(\Exception $exception): void
     {
-        $trace = $this->enrichTrace($exception->getTrace());
+        $trace = $this->enrichTrace($exception);
 
         $exceptions[] = [
             'type' => \get_class($exception),
@@ -84,8 +84,19 @@ class Dawilog
      * @param array $arrTrace
      * @return array
      */
-    public function enrichTrace(array $arrTrace): array
+    public function enrichTrace(\Exception $exception): array
     {
+        $arrTrace = $exception->getTrace();
+        $arrFirst = [
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+            'function' => '',
+            'class' => '',
+            'type' => '',
+            'args' => [],
+        ];
+        array_unshift($arrTrace, $arrFirst);
+
         $arrReturn = [];
 
         foreach ($arrTrace as $item) {
