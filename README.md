@@ -5,8 +5,6 @@
 composer require wiebekn/dawilog-php
 ```
 
-
-
 add to .env
 ```
 DAWILOG_DSN=
@@ -15,6 +13,18 @@ DAWILOG_DSN=
 config/app.php
 ```
 Dawilog\Laravel\ServiceProvider::class,
+```
+
+app/Exceptions/Handler.php (Laravel 8)
+```
+    public function register()
+    {
+        $this->reportable(function (Throwable $e) {
+            if (app()->bound('dawilog') && $this->shouldReport($e)) {
+                app('dawilog')->sendException($e);
+            }
+        });
+    }
 ```
 
 app/Exceptions/Handler.php (Laravel 7)
