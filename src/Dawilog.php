@@ -27,7 +27,7 @@ class Dawilog
     /**
      * @param $exception
      */
-    public function sendException(\Exception $exception): void
+    public function sendException(\Throwable $exception): void
     {
         $trace = $this->enrichTrace($exception);
 
