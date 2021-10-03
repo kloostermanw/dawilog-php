@@ -84,7 +84,7 @@ class Dawilog
      * @param array $arrTrace
      * @return array
      */
-    public function enrichTrace(\Exception $exception): array
+    public function enrichTrace(\Throwable $exception): array
     {
         $arrTrace = $exception->getTrace();
         $arrFirst = [
