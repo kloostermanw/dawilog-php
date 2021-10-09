@@ -13,6 +13,7 @@ class DawilogEvent
     protected $serverVars;
     protected $version;
     protected $release;
+    protected $meta = [];
 
     /**
      * DawilogEvent constructor.
@@ -24,6 +25,13 @@ class DawilogEvent
         $this->environment = config('dawilog.environment');
         $this->serverVars = $_SERVER;
         $this->release = config('dawilog.release');
+
+        if (is_callable(config('dawilog.callable-meta'))) {
+            $arrMeta = config('dawilog.callable-meta');
+            if (is_array($arrMeta)) {
+                $this->meta = $arrMeta;
+            }
+        }
     }
 
     public function toArray()
@@ -35,6 +43,7 @@ class DawilogEvent
             "environment" => $this->environment,
             "server_vars" => $this->serverVars,
             "release" => $this->release,
+            "meta" => $this->meta,
         ];
 
         if (!is_null($this->version)) {
