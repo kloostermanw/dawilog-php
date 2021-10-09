@@ -27,7 +27,8 @@ class DawilogEvent
         $this->release = config('dawilog.release');
 
         if (is_callable(config('dawilog.callable-meta'))) {
-            $arrMeta = config('dawilog.callable-meta');
+            $arrMeta = call_user_func(config('dawilog.callable-meta'));
+
             if (is_array($arrMeta)) {
                 $this->meta = $arrMeta;
             }
