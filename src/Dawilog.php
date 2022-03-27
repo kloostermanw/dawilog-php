@@ -6,6 +6,7 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use Psy\Util\Json;
+use Ramsey\Uuid\Uuid;
 
 class Dawilog
 {
@@ -72,9 +73,12 @@ class Dawilog
     {
         $strReturn = '';
 
-        if (isset($this->dsn)) {
-            [$url, $uuid, $account, $project] = explode(":", $this->dsn);
-            $strReturn = "https://" . $url . "/dwlog/event/" . $account . "/" . $project . "/" . $uuid;
+        if (isset($this->dsn) && $this->dsn !== '') {
+            [$strUrl, $strUuid, $strAccount, $strProject] = explode(":", $this->dsn);
+
+            if ($strUrl !== '' && $strAccount !== '' &&  $strProject !== '' && Uuid::isValid($strUuid)) {
+                $strReturn = "https://" . $strUrl . "/dwlog/event/" . $strAccount . "/" . $strProject . "/" . $strUuid;
+            }
         }
 
         return $strReturn;
